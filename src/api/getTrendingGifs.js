@@ -4,7 +4,6 @@ export const getTrendingGifs = async () => {
     const url = `https://api.giphy.com/v1/gifs/trending?api_key=${API_KEY}&limit=25&offset=0&rating=g&bundle=messaging_non_clips`;
     const response = await fetch(url);
     const json = await response.json();
-    // console.log('json', json);
     return json;
   } catch (e) {
     console.error('e', e);
