@@ -5,6 +5,7 @@ import {
   SafeAreaView,
   StatusBar,
   StyleSheet,
+  TextInput,
   View,
   useColorScheme,
 } from 'react-native';
@@ -21,6 +22,8 @@ const App = () => {
   };
 
   const [data, setData] = useState([]);
+
+  const [searchText, setSearchText] = useState('');
 
   const getData = async () => {
     const response = await getTrendingGifs();
@@ -55,9 +58,20 @@ const App = () => {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
         backgroundColor={backgroundStyle.backgroundColor}
       />
+
       <View style={styles.gifContainer}>
+        <TextInput
+          value={searchText}
+          placeholder={'Search GIFs'}
+          style={styles.searchBox}
+          onChangeText={text => {
+            setSearchText(text);
+          }}
+        />
         <FlatList
-          data={data}
+          data={data.filter(item =>
+            item.title.toLowerCase().includes(searchText.toLowerCase()),
+          )}
           renderItem={renderItem}
           keyExtractor={item => item.id}
         />
@@ -67,6 +81,13 @@ const App = () => {
 };
 
 const styles = StyleSheet.create({
+  searchBox: {
+    height: 50,
+    margin: 5,
+    padding: 5,
+    borderWidth: 1,
+    borderRadius: 5,
+  },
   gifContainer: {
     flex: 1,
   },
